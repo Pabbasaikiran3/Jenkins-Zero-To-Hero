@@ -2,11 +2,18 @@ pipeline {
     agent {
         docker {
             image 'pabbasaikiran3/maven-pabbasaikiran-docker-agent:v1'
-            args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // Mount Docker socket
+            args '--user root -v /var/run/docker.sock:/var/run/docker.sock'
         }
     }
 
     stages {
+        stage('Check Docker Installation') {
+            steps {
+                sh 'docker --version'
+                sh 'docker info'
+            }
+        }
+
         stage('Checkout') {
             steps {
                 echo 'Checking out the repository'
@@ -75,4 +82,3 @@ pipeline {
         }
     }
 }
-
